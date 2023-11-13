@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const config = require("dotenv").config;
 const mongoose = require('mongoose');
 
 const homeStartingContent =
@@ -10,16 +11,17 @@ const homeStartingContent =
 
 
 const app = express();
-
+config({
+  path: ".env",
+});
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
-
 const connectDB = () => {
   const database = mongoose
     .connect(
-      "mongodb+srv://williumtiwari123:vashu1234@cluster0.mbkzukv.mongodb.net/",
+      process.env.Mongo_URL,
       {
         dbName: "Daily-journal",
         useNewUrlParser: true,
